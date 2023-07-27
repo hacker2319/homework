@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rock, Paper, Scissors Game</title>
+</head>
+<body>
+    <h1>Rock, Paper, Scissors Game</h1>
+    <input type="radio" name="choice" value="rock">Rock
+    <input type="radio" name="choice" value="paper">Paper
+    <input type="radio" name="choice" value="scissors">Scissors
+    <button onclick="playGame()">Play</button>
+    <p id="result"></p>
+    
+    <script>
+        function playGame() {
+            const userChoice = document.querySelector('input[name="choice"]:checked');
+            if (!userChoice) {
+                alert("Please select a choice (Rock, Paper, or Scissors).");
+                return;
+            }
+
+            const computerChoice = getRandomChoice();
+            const userSelected = userChoice.value;
+            const computerSelected = computerChoice.value;
+
+            const winner = getWinner(userSelected, computerSelected);
+
+            const resultMessage = `
+                User selected: ${userSelected}<br>
+                Computer selected: ${computerSelected}<br>
+                Winner: ${winner}
+            `;
+
+            document.getElementById("result").innerHTML = resultMessage;
+        }
+
+        function getRandomChoice() {
+            const choices = ['rock', 'paper', 'scissors'];
+            const randomIndex = Math.floor(Math.random() * choices.length);
+            return { value: choices[randomIndex] };
+        }
+
+        function getWinner(userChoice, computerChoice) {
+            if (userChoice === computerChoice) {
+                return "It's a tie!";
+            } else if (
+                (userChoice === "rock" && computerChoice === "scissors") 
+                (userChoice === "paper" && computerChoice === "rock") 
+                (userChoice === "scissors" && computerChoice === "paper")
+            ) {
+                return "User";
+            } else {
+                return "Computer";
+            }
+        }
+    </script>
+</body>
+<head>
+    <title>Number Guessing Game</title>
+</head>
+<body>
+    <h1>Number Guessing Game</h1>
+    <p>Guess the number between 1 and 100. You have 5 lives.</p>
+    <input type="number" id="userGuess">
+    <button onclick="checkGuess()">Submit Guess</button>
+    <p id="message"></p>
+    
+    <script>
+        let lives = 5;
+        const randomNumber = Math.floor(Math.random() * 100) + 1;
+
+        function checkGuess() {
+            const userGuess = parseInt(document.getElementById("userGuess").value);
+            const messageElement = document.getElementById("message");
+
+            if (isNaN(userGuess) || userGuess < 1 || userGuess > 100) {
+                messageElement.textContent = "Please enter a valid number between 1 and 100.";
+                return;
+            }
+
+            if (userGuess === randomNumber) {
+                messageElement.textContent = "Correct! You guessed the number.";
+                document.getElementById("userGuess").disabled = true;
+            } else if (userGuess < randomNumber) {
+                messageElement.textContent = "Try again. The number is higher.";
+            } else {
+                messageElement.textContent = "Try again. The number is lower.";
+            }
+
+            lives -= 1;
+            if (lives === 0) {
+                messageElement.textContent = `Game over. The number was ${randomNumber}.`;
+                document.getElementById("userGuess").disabled = true;
+            } else {
+                messageElement.textContent += ` You have ${lives} lives left.`;
+            }
+        }
+    </script>
+</body>
+
+</html>
